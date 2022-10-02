@@ -5,12 +5,42 @@ using UnityEngine;
 
 public class WeaponInventory : MonoBehaviour
 {
-    
     [SerializeField] private WeaponBase[] weapons;
+    [SerializeField] private GameObject weaponAttachmentObject;
+
     private int _inventorySize = 2;
     private int _activeWeaponIndex = 0;
-    
-    
+
+    private void Start()
+    {
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (i != _activeWeaponIndex)
+            {
+                weapons[i].gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void SwitchWeapon(int index)
+    {
+        if (index >= weapons.Length || index == _activeWeaponIndex) return;
+
+        for (int i = 0; i < weapons.Length; i++)
+        {
+            if (weapons[i] && i != _activeWeaponIndex && i == index)
+            {
+                weapons[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                weapons[i].gameObject.SetActive(false);
+            }
+        }
+        
+        _activeWeaponIndex = index;
+    }
+
     public bool TrAddWeapon(WeaponBase weapon)
     {
         for (int i = 0; i < weapons.Length; i++)
@@ -26,6 +56,7 @@ public class WeaponInventory : MonoBehaviour
                 return true;
             }
         }
+
         return false;
     }
 
@@ -33,6 +64,9 @@ public class WeaponInventory : MonoBehaviour
     {
         if (weapon)
             weapons[index] = weapon;
+        weapon.gameObject.transform.parent = weaponAttachmentObject.transform;
+        weapon.gameObject.transform.localPosition = Vector3.zero;
+        weapon.gameObject.SetActive(false);
     }
 
     void RemoveWeapon(WeaponBase weapon)
@@ -43,12 +77,25 @@ public class WeaponInventory : MonoBehaviour
             {
                 weapons[i] = null;
             }
-        }   
+        }
     }
 
-    void ReplaceEquipedWeapon(WeaponBase NewWeapon)
+    void Drop()
     {
-        weapons[_activeWeaponIndex] = NewWeapon;
+        WeaponBase equipedWeapon = GetEquipedWeapon();
+        weapons[_activeWeaponIndex] = null;
+        equipedWeapon.transform.parent = null;
+        Vector3 right = transform.right;
+        equipedWeapon.transform.position = transform.position + (right * 2);
+    }
+
+    void ReplaceEquipedWeapon(WeaponBase newWeapon)
+    {
+        Drop();
+        weapons[_activeWeaponIndex] = newWeapon;
+        WeaponBase equipedWeapon = GetEquipedWeapon();
+        equipedWeapon.transform.parent = weaponAttachmentObject.transform;
+        equipedWeapon.transform.localPosition = Vector3.zero;
     }
 
     public WeaponBase GetEquipedWeapon()

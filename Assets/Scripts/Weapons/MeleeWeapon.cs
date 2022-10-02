@@ -5,8 +5,8 @@ using UnityEngine;
 public class MeleeWeapon : WeaponBase
 {
     
-    public override void Attack()
+    public override void Attack(Vector3 direction)
     {
-        base.Attack();
+        base.Attack(direction);
     }
 }

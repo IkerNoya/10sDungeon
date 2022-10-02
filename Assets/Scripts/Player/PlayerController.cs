@@ -43,7 +43,7 @@ namespace Player
             if (_sprite && Camera.main)
                 _sprite.flipX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x < transform.position.x;
         }
-
+        
         void HandleInput()
         {
             if (Input.GetKeyDown(dash) && _canDash)
@@ -54,23 +54,37 @@ namespace Player
 
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
-                CameraShake.Instance.Shake(.05f, .1f);
+                if(TryGetComponent<IDamageInterface>(out IDamageInterface damageInterface))
+                    damageInterface.Damage(DamageType.Normal, 1);
             }
 
             if (Input.GetKeyDown(attack))
             {
-                Attack();
+                Vector3 attackDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                Attack(attackDirection);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                if (!_inventory) return;
+                _inventory.SwitchWeapon(0);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                if (!_inventory) return;
+                _inventory.SwitchWeapon(1);
             }
         }
 
-        void Attack()
+        void Attack(Vector3 direction)
         {
             if (_inventory)
             {
                 WeaponBase weapon = _inventory.GetEquipedWeapon();
                 if (weapon)
                 {
-                    weapon.Attack();
+                    weapon.Attack(direction);
                 }
             }
         }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IWeaponInterface
+public interface IInteractionInterface
 {
-    abstract void Attack(Vector3 direction);
+   public void HandleInteraction();
 }
