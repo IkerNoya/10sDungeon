@@ -11,6 +11,7 @@ namespace Player
         [SerializeField] private Animator animator = null;
         [Header("Inputs")]
         [SerializeField] private KeyCode dash;
+        [SerializeField] private KeyCode attack;
         [Header("Dash")]
         [SerializeField] private float dashDuration = 1f;
         [SerializeField] private float dashSpeed = 1f;
@@ -21,9 +22,12 @@ namespace Player
         private readonly int _velocityProperty = Animator.StringToHash("Speed");
         private bool _canDash = true;
 
+        private WeaponInventory _inventory;
+
         void Start()
         {
             _sprite = GetComponentInChildren<SpriteRenderer>();
+            _inventory = GetComponent<WeaponInventory>();
         }
 
         void Update()
@@ -36,15 +40,8 @@ namespace Player
 
             if(animator)
                 animator.SetFloat(_velocityProperty, _movement.magnitude);
-            
-            if (horizontalInput < 0.01f && horizontalInput > -0.01f) return;
-            
-            bool shouldFlipSprite = false;
-            if (verticalInput > 0) shouldFlipSprite = false;
-            else if (horizontalInput < 0) shouldFlipSprite = true;
-            
-            if (_sprite)
-                _sprite.flipX = shouldFlipSprite;
+            if (_sprite && Camera.main)
+                _sprite.flipX = Camera.main.ScreenToWorldPoint(Input.mousePosition).x < transform.position.x;
         }
 
         void HandleInput()
@@ -58,6 +55,23 @@ namespace Player
             if (Input.GetKeyDown(KeyCode.Alpha0))
             {
                 CameraShake.Instance.Shake(.05f, .1f);
+            }
+
+            if (Input.GetKeyDown(attack))
+            {
+                Attack();
+            }
+        }
+
+        void Attack()
+        {
+            if (_inventory)
+            {
+                WeaponBase weapon = _inventory.GetEquipedWeapon();
+                if (weapon)
+                {
+                    weapon.Attack();
+                }
             }
         }
 
