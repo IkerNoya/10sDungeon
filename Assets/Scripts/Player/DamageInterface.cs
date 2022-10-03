@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum DamageType
 {
-    Normal, Fire, Ice 
+    Normal, Fire, Ice , Electric
 }
 
 public interface IDamageInterface

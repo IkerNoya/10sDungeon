@@ -12,6 +12,7 @@ namespace Player
         [Header("Inputs")]
         [SerializeField] private KeyCode dash;
         [SerializeField] private KeyCode attack;
+        [SerializeField] private KeyCode interact;
         [Header("Dash")]
         [SerializeField] private float dashDuration = 1f;
         [SerializeField] private float dashSpeed = 1f;
@@ -23,11 +24,13 @@ namespace Player
         private bool _canDash = true;
 
         private WeaponInventory _inventory;
+        private InteractionSystem _interactionSystem;
 
         void Start()
         {
             _sprite = GetComponentInChildren<SpriteRenderer>();
             _inventory = GetComponent<WeaponInventory>();
+            _interactionSystem = GetComponent<InteractionSystem>();
         }
 
         void Update()
@@ -62,6 +65,12 @@ namespace Player
             {
                 Vector3 attackDirection = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
                 Attack(attackDirection);
+            }
+
+            if (Input.GetKeyDown(interact))
+            {
+                if(_interactionSystem)
+                    _interactionSystem.Interact();
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha1))

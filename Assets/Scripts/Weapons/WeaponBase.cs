@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class WeaponBase : MonoBehaviour, IWeaponInterface
+public class WeaponBase : MonoBehaviour, IWeaponInterface, IInteractionInterface
 {
     [Header("Settings")] 
     [SerializeField] protected float timeBetweenAttacks = 0.5f;
@@ -17,6 +17,8 @@ public class WeaponBase : MonoBehaviour, IWeaponInterface
 
     private float _attackTimer = 0;
 
+    public static event Action<WeaponBase> OnPickup;
+    
     private void Update()
     {
         if (canAttack) return;
@@ -36,5 +38,10 @@ public class WeaponBase : MonoBehaviour, IWeaponInterface
     {
         Debug.Log("ATTACK!");
     }
-    
+
+    public void HandleInteraction()
+    {
+        gameObject.layer = 11;
+        OnPickup?.Invoke(this);
+    }
 }

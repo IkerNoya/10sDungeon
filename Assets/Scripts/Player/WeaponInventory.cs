@@ -15,11 +15,18 @@ public class WeaponInventory : MonoBehaviour
     {
         for (int i = 0; i < weapons.Length; i++)
         {
-            if (i != _activeWeaponIndex)
+            if (i != _activeWeaponIndex && weapons[i])
             {
                 weapons[i].gameObject.SetActive(false);
             }
         }
+
+        WeaponBase.OnPickup += TryAddWeapon;
+    }
+
+    private void OnDestroy()
+    {
+        WeaponBase.OnPickup -= TryAddWeapon;
     }
 
     public void SwitchWeapon(int index)
@@ -34,27 +41,37 @@ public class WeaponInventory : MonoBehaviour
             }
             else
             {
-                weapons[i].gameObject.SetActive(false);
+                if(weapons[i])
+                    weapons[i].gameObject.SetActive(false);
             }
         }
         
         _activeWeaponIndex = index;
     }
 
-    public bool TrAddWeapon(WeaponBase weapon)
+    public void TryAddWeapon(WeaponBase weapon)
     {
         for (int i = 0; i < weapons.Length; i++)
         {
             if (weapons[i] == null)
             {
                 AddWeapon(weapon, i);
-                return true;
+                return;
             }
-            else if (i == _activeWeaponIndex)
+            else if (i == _activeWeaponIndex && !HasEmptySlot()) 
             {
                 ReplaceEquipedWeapon(weapon);
-                return true;
+                return;
             }
+        }
+    }
+
+    bool HasEmptySlot()
+    {
+        foreach (var weapon in weapons)
+        {
+            if (!weapon)
+                return true;
         }
 
         return false;
@@ -87,6 +104,7 @@ public class WeaponInventory : MonoBehaviour
         equipedWeapon.transform.parent = null;
         Vector3 right = transform.right;
         equipedWeapon.transform.position = transform.position + (right * 2);
+        equipedWeapon.gameObject.layer = 10;
     }
 
     void ReplaceEquipedWeapon(WeaponBase newWeapon)
