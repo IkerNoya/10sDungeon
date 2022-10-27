@@ -33,7 +33,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -114,6 +114,18 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Windows Store Apps
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -2458,19 +2470,20 @@ TextureImporter:
       full spritesheet_116: 1119308030
       full spritesheet_85: 1868092274
       full spritesheet_40: 271124222
-      full spritesheet_94: -1346337333
       full spritesheet_133: 558652836
+      full spritesheet_94: -1346337333
+      full spritesheet_138: -1648940689
       full spritesheet_10: 1180627244
       full spritesheet_107: -69254640
-      full spritesheet_138: -1648940689
-      full spritesheet_53: -1814666419
       full spritesheet_172: 1452888421
+      full spritesheet_53: -1814666419
       full spritesheet_43: -455072239
       full spritesheet_45: 412120433
       full spritesheet_79: -159291299
       full spritesheet_104: 2136332106
       full spritesheet_0: 919684182
       full spritesheet_110: 1490937184
+      full spritesheet_96: 1212041469
       full spritesheet_26: 838384708
       full spritesheet_86: -1040789455
       full spritesheet_114: 859679062
@@ -2479,7 +2492,6 @@ TextureImporter:
       full spritesheet_22: 941774093
       full spritesheet_46: 827397229
       full spritesheet_102: -417283853
-      full spritesheet_96: 1212041469
       full spritesheet_136: -722782069
       full spritesheet_89: 2027228435
       full spritesheet_125: -2129608133
@@ -2519,8 +2531,8 @@ TextureImporter:
       full spritesheet_15: 604010958
       full spritesheet_52: 1380292549
       full spritesheet_54: -1884683189
-      full spritesheet_67: 1175390613
       full spritesheet_144: -747628539
+      full spritesheet_67: 1175390613
       full spritesheet_28: 1623996805
       full spritesheet_13: -512979118
       full spritesheet_5: -356072989
